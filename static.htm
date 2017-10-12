@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test with Restify and WidgetDB</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+</head>
+<body>
+
+<h1>
+    Test with Restify and WidgetDB
+</h1>
+
+<h2>GET http://localhost:8123/test</h2>
+Responses:
+<div id="resId"></div>
+
+<script type="text/javascript">
+
+  function wait(ms) {
+    var start = new Date().getTime();
+    var end = start;
+    while (end < start + ms) {
+      end = new Date().getTime();
+    }
+  }
+
+  $(function () {
+    var postRequest = function (url, dataObj) {
+      $.ajax({
+        type: "POST",
+        url: url,
+        contentType: "application/json",
+        data: JSON.stringify(dataObj),
+        dataType: "json",
+        success: function (response, status, xhr) {
+          $("#resId").append("<br>PostRequest: " + JSON.stringify(response));
+        },
+        error: function (error) {
+          $("#resId").append("<br>PostRequest: " + JSON.stringify(error));
+        }
+      });
+    };
+
+    var putRequest = function (url, dataObj) {
+      dataObj.name = dataObj.name + "" + Math.round(Math.random() * 1000);
+      $.ajax({
+        type: "PUT",
+        url: url,
+        contentType: "application/json",
+        data: JSON.stringify(dataObj),
+        dataType: "json",
+        success: function (response, status, xhr) {
+          $("#resId").append("<br>PutRequest: " + JSON.stringify(response));
+        },
+        error: function (error) {
+          $("#resId").append("<br>PutRequest: " + JSON.stringify(error));
+        }
+      });
+    };
+
+    var getRequest = function (url, element) {
+      $.ajax({
+        type: "GET",
+        url: url + "?t=" + new Date().getTime(),
+        contentType: "application/json",
+        success: function (response, status, xhr) {
+          $("#resId").append("<br>GetRequest: " + JSON.stringify(response));
+        },
+        error: function (error) {
+          $("#resId").append("<br>GetRequest: " + JSON.stringify(error));
+        }
+      });
+    };
+
+    var url = "http://localhost:8123/test";
+
+    //getRequest(url);
+    postRequest(url, {id: 11, name: "Number 11"});
+    wait(500);
+    postRequest(url, {id: 22, name: "Number 22"});
+    wait(500);
+    getRequest(url + '/11');
+    wait(500);
+    putRequest(url + "/11", {id: 1111, name: "New Data with id# 1111 and Rand# "});
+    wait(500);
+    getRequest(url + '/11');
+    wait(500);
+    putRequest(url + "/999", {id: 999, name: "Non-exist record of 999"});
+    wait(500);
+    getRequest(url + '/888');
+  });
+
+</script>
+</body>
+</html> 
