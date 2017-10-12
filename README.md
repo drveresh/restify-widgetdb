@@ -1,10 +1,12 @@
 Test-with-Restify-and-WidgetDB
 ===========================
 
+The purpose of this repo is to implement simple app using Restify and WingetDB(https://github.com/stuartking/widgetdb) to simulate basic Get/Put operations via RESTful service.
+
 ## Install
 
 ```sh
-$ git clone https://github.com/*.github
+$ git clone https://github.com/drveresh/restify-widgetdb.git
 $ npm install
 ```
 
