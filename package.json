@@ -3,6 +3,6 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "restify": "~3.0.0"
+    "restify": ">=4.1.0"
   }
 }
